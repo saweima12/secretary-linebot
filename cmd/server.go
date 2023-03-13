@@ -13,7 +13,7 @@ var CmdServer = cli.Command{
 	Flags: []cli.Flag{
 		&cli.StringFlag{
 			Name:    "port",
-			Value:   "8001",
+			Value:   "8080",
 			Usage:   "Temporary port number",
 			Aliases: []string{"p"},
 		},
