@@ -1,7 +1,6 @@
 package server
 
 import (
-	"log"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -61,8 +60,6 @@ func New() *secretary.ServerApp {
 
 func initMongoDB(dbUri string) (*mongo.Client, error) {
 	// declare options & ctx
-
-	log.Printf("TEST DBURI: %s", dbUri)
 	opts := options.Client().ApplyURI(dbUri)
 	client, err := mongo.NewClient(opts)
 
