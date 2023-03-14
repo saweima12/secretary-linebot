@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/gin-gonic/gin"
@@ -48,7 +47,6 @@ func (h *LineBotHandler) newUpdate(ctx *gin.Context) {
 		switch message := event.Message.(type) {
 		case *linebot.TextMessage:
 			h.botService.SaveBotMessage(event.Source, message)
-			fmt.Println(message.Text)
 		}
 	}
 
