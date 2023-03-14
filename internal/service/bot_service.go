@@ -12,6 +12,7 @@ import (
 type LineBotService interface {
 	ParseRequest(req *http.Request) ([]*linebot.Event, error)
 	SaveMessage(source *linebot.EventSource, msg *linebot.TextMessage) error
+	SendMessage(userId string, text string) error
 }
 
 type lineBotService struct {
@@ -44,6 +45,18 @@ func (s *lineBotService) SaveMessage(source *linebot.EventSource, msg *linebot.T
 	}
 
 	_, err = s.MsgRepo.InsertOne(model)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s *lineBotService) SendMessage(userId string, text string) error {
+
+	message := linebot.NewTextMessage(text)
+	_, err := s.Client.PushMessage(userId, message).Do()
+
 	if err != nil {
 		return err
 	}

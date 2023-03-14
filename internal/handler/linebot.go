@@ -10,6 +10,10 @@ import (
 	"github.com/saweima12/secretary-bot/internal/service"
 )
 
+const (
+	RECORDED_MSG = "Message recorded"
+)
+
 func (r *router) registerLineBotHandler(parent *gin.RouterGroup) {
 
 	// create group.
@@ -46,7 +50,15 @@ func (h *LineBotHandler) newUpdate(ctx *gin.Context) {
 	for _, event := range events {
 		switch message := event.Message.(type) {
 		case *linebot.TextMessage:
-			h.botService.SaveMessage(event.Source, message)
+			err = h.botService.SaveMessage(event.Source, message)
+			if err != nil {
+				log.Fatalf("Can't save message: %+v", message)
+			}
+
+			err = h.botService.SendMessage(event.Source.UserID, RECORDED_MSG)
+			if err != nil {
+				log.Fatalf("Can't send message: %+v", message)
+			}
 		}
 	}
 
