@@ -46,7 +46,7 @@ func (h *LineBotHandler) newUpdate(ctx *gin.Context) {
 	for _, event := range events {
 		switch message := event.Message.(type) {
 		case *linebot.TextMessage:
-			h.botService.SaveBotMessage(event.Source, message)
+			h.botService.SaveMessage(event.Source, message)
 		}
 	}
 
