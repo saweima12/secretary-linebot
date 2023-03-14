@@ -11,8 +11,10 @@ services:
     depends_on:
       - mongo
     environment:
-      - BOT_MONGO_URI=mongodb://root:password@mongo:27017
-      - GIN_MODE=release 
+      GIN_MODE: release
+      BOT_MONGO_URI: mongodb://root:password@mongo:27017
+      BOT_LINE_SECRET: ""
+      BOT_LINE_TOKEN: ""
     command: "./main server"
 
   mongo:
