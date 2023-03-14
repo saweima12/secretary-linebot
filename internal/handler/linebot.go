@@ -47,8 +47,8 @@ func (h *LineBotHandler) newUpdate(ctx *gin.Context) {
 	for _, event := range events {
 		switch message := event.Message.(type) {
 		case *linebot.TextMessage:
-			// TODO: Record message into mongodb
-			fmt.Println(message.ID)
+			h.botService.SaveBotMessage(event.Source, message)
+			fmt.Println(message.Text)
 		}
 	}
 
