@@ -1,7 +1,10 @@
 package server
 
 import (
+	"context"
+	"log"
 	"os"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/line/line-bot-sdk-go/linebot"
@@ -64,6 +67,22 @@ func initMongoDB(dbUri string) (*mongo.Client, error) {
 	client, err := mongo.NewClient(opts)
 
 	if err != nil {
+		return nil, err
+	}
+
+	// Create database connection.
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	err = client.Connect(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	// check db connection is ok.
+	err = client.Ping(ctx, nil)
+	if err != nil {
+		log.Fatalf("Failed to connect to MongoDB: %v", err)
 		return nil, err
 	}
 
