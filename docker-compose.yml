@@ -1,26 +1,13 @@
 version: '3.7'
 
 services:
-  bot:
-    build: 
-      context: .
-      dockerfile: "Dockerfile"
-    container_name: "secretary_bot"
-    depends_on:
-      - mongo
-    environment:
-      - BOT_MONGO_URI=mongodb://mongo:27017
-
-  mongodb:
+  mongo:
     image: mongo:6.0.4
     container_name: "secretary_mongo"
     ports:
       - 27017:27017
     volumes:
-      - "./vols/mongo:/data/db"
-
-  mongodb-express:
-    image: mongo-express:latest
+      - "./.vols/mongo:/data/db"
     environment:
-      - ME_CONFIG_MONGODB_SERVER=mongo
-      - ME_CONFIG_MONGODB_PORT=27017
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password

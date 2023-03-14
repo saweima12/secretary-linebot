@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  bot:
+    build:
+      context: .
+      dockerfile: "Dockerfile"
+    container_name: "secretary_bot"
+    ports:
+      - 8080:8080
+    depends_on:
+      - mongo
+    environment:
+      - BOT_MONGO_URI=mongodb://root:password@mongo:27017
+      - GIN_MODE=release 
+    command: "./main server"
+
+  mongo:
+    image: mongo:6.0.4
+    container_name: "secretary_mongo"
+    ports:
+      - 27017:27017
+    volumes:
+      - "./.vols/mongo:/data/db"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=password
